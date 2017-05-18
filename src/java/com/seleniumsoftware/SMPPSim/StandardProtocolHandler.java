@@ -34,8 +34,6 @@ import com.seleniumsoftware.SMPPSim.util.*;
 import java.util.logging.*;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import java.util.*;
-import java.io.*;
 
 public class StandardProtocolHandler {
 	static Logger logger = Logger.getLogger("com.seleniumsoftware.smppsim");
@@ -411,11 +409,6 @@ public class StandardProtocolHandler {
 	}
 
 	void getSubmitSMResponse(byte[] message, int len) throws Exception {
-		Properties props = new Properties();
-		InputStream is = new FileInputStream("conf/smppsim.props");
-		props.load(is);
-		boolean esme_rthrottled_enabled = Boolean.valueOf(props.getProperty("ESME_RTHROTTLED")).booleanValue();
-		logger.info("ESME_RTHROTTLED: " + esme_rthrottled_enabled);
 		LoggingUtilities.hexDump(": Standard SUBMIT_SM:", message, len);
 		byte[] resp_message;
 		SubmitSM smppmsg = new SubmitSM();
@@ -430,7 +423,7 @@ public class StandardProtocolHandler {
 		SubmitSMResp smppresp = new SubmitSMResp(smppmsg);
 
 		// if throtled
-		if (esme_rthrottled_enabled){
+		if (SMPPSim.isThrottled()){
 			logger.warning("THROTTLED");
 			resp_message = smppresp.errorResponse(smppresp.getCmd_id(),
 					PduConstants.ESME_RTHROTTLED, smppresp.getSeq_no());

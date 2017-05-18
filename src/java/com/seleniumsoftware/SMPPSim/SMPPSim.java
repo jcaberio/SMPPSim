@@ -205,6 +205,9 @@ public class SMPPSim {
 
 	private static byte[] dlr_tlv_value;
 
+	// THROTTLED
+	private static boolean esme_rthrottled;
+
 	public static void main(String args[]) throws Exception {
 		System.out.println("SMPPSim is starting....");
 		if ((args == null) || (args.length != 1)) {
@@ -256,7 +259,7 @@ public class SMPPSim {
 	private static void initialise(Properties props) throws Exception {
 		http200Response = http200Message.getBytes();
 		http400Response = http400Message.getBytes();
-
+        boolean esme_rthrottled_enabled = Boolean.valueOf(props.getProperty("ESME_RTHROTTLED")).booleanValue();
 		maxConnectionHandlers = Integer.parseInt(props.getProperty("SMPP_CONNECTION_HANDLERS"));
 		smppPort = Integer.parseInt(props.getProperty("SMPP_PORT"));
 		connectionHandlerClassName = props.getProperty("CONNECTION_HANDLER_CLASS");
@@ -332,7 +335,7 @@ public class SMPPSim {
 		setCaptureSmeDecodedToFile(props.getProperty("CAPTURE_SME_DECODED_TO_FILE"));
 		setCaptureSmppsimDecoded(Boolean.valueOf(props.getProperty("CAPTURE_SMPPSIM_DECODED")).booleanValue());
 		setCaptureSmppsimDecodedToFile(props.getProperty("CAPTURE_SMPPSIM_DECODED_TO_FILE"));
-
+		setThrottled(esme_rthrottled_enabled);
 		// Byte stream callbacks
 		callback = Boolean.valueOf(props.getProperty("CALLBACK")).booleanValue();
 		if (callback) {
@@ -455,6 +458,7 @@ public class SMPPSim {
 		logger.info("=  CAPTURE_RESPONSES_DECODED               :" + isCaptureSmppsimDecoded());
 		logger.info("=  CAPTURE_RESPONSES_DECODED_TO_FILE       :" + captureSmppsimDecodedToFile);
 		logger.info("=  CALLBACK                                :" + callback);
+		logger.info("=  ESME_RTHROTTLED                         :" + esme_rthrottled);
 		if (callback) {
 			logger.info("=  CALLBACK_TARGET_HOST                    :" + callback_target_host);
 			logger.info("=  CALLBACK_PORT                           :" + callback_port);
@@ -1175,5 +1179,12 @@ public class SMPPSim {
 
 	public static void setSimulate_variable_submit_sm_response_times(boolean simulateVariableSubmitSmResponseTimes) {
 		simulate_variable_submit_sm_response_times = simulateVariableSubmitSmResponseTimes;
+	}
+
+    public static void setThrottled(boolean b) {
+		esme_rthrottled = b;
+	}
+	public static boolean isThrottled() {
+		return esme_rthrottled;
 	}
 }
