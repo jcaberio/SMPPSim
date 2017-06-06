@@ -19,7 +19,7 @@
   <target name="compile" depends="init"
         description="Compile the project" >
       <!-- Compile the java code from ${src} into ${build} -->
-      <javac srcdir="${src}" destdir="${classes}" classpath="${classpath}">
+      <javac  target="1.6" source="1.6" srcdir="${src}" destdir="${classes}" classpath="${classpath}">
   			<compilerarg value="-Xlint:unchecked"/>
 	  </javac>
   </target>
