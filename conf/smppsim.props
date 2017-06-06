@@ -14,11 +14,14 @@ PROTOCOL_HANDLER_CLASS=com.seleniumsoftware.SMPPSim.StandardProtocolHandler
 
 # Specify the class that implements the message state life cycle simulation.
 # Such classes must extend the default class, LifeCycleManager
-LIFE_CYCLE_MANAGER=com.seleniumsoftware.SMPPSim.LifeCycleManager
+#LIFE_CYCLE_MANAGER=com.seleniumsoftware.SMPPSim.LifeCycleManager
 #
 # The Deterministic Lifecycle Manager sets message state according to the first character of the message destination address:
 # 1=EXPIRED,2=DELETED,3=UNDELIVERABLE,4=ACCEPTED,5=REJECTED, other=DELIVERED
 # LIFE_CYCLE_MANAGER=com.seleniumsoftware.SMPPSim.DeterministicLifeCycleManager
+
+# Life cycle manager for load testing, sets message state according to the MT message
+LIFE_CYCLE_MANAGER=com.seleniumsoftware.SMPPSim.LoadTestLifeCycleManager
 
 # LifeCycleManager parameters
 #
@@ -83,7 +86,7 @@ LOOPBACK=FALSE
 ESME_TO_ESME=false
 
 # ESME THROTTLING ERROR
-ESME_RTHROTTLED=true
+ESME_RTHROTTLED=false
 
 # QUEUES
 # Maximum size parameters are expressed as max number of objects the queue can hold
