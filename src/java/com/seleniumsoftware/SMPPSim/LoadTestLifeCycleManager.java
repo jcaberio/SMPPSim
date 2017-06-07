@@ -37,6 +37,9 @@ private static Logger logger = Logger.getLogger("com.seleniumsoftware.smppsim");
 		} else if (testmessage.equalsIgnoreCase("REJECTED")) {
 			m.setState(PduConstants.REJECTED);
 			m.setErr(902);
+		} else if (testmessage.equalsIgnoreCase("UNKNOWN")) {
+            m.setState(PduConstants.UNKNOWN);
+			m.setErr(905);
 		} else {
 			m.setState(PduConstants.DELIVERED);
 			m.setErr(0);
