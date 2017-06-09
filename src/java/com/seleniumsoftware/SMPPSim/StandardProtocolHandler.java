@@ -824,39 +824,24 @@ public class StandardProtocolHandler {
 	}
 
 	void getEnquireResponse(byte[] message, int len) throws Exception {
-		LoggingUtilities.hexDump(": ENQUIRE_LINK:", message, len);
 		EnquireLink smppmsg = new EnquireLink();
 		byte[] resp_message;
 		smppmsg.demarshall(message);
-		if (smsc.isDecodePdus())
-			LoggingUtilities.logDecodedPdu(smppmsg);
 		smsc.writeDecodedSme(smppmsg.toString());
-		logger.info(" ");
-		// now make the response object
 		EnquireLinkResp smppresp = new EnquireLinkResp(smppmsg);
 
 		// Validate session
 		if (!session.isBound()) {
-			logger.warning("Invalid bind state. Must be bound for this PDU");
 			wasInvalidBindState = true;
 			resp_message = smppresp.errorResponse(smppresp.getCmd_id(),
 					PduConstants.ESME_RINVBNDSTS, smppresp.getSeq_no());
-			logPdu(": ENQUIRE_LINK_RESP (ESME_RINVBNDSTS):", resp_message,
-					smppresp);
 			smsc.incEnquireLinkERR();
 			connection.writeResponse(resp_message);
 			smsc.writeDecodedSmppsim(smppresp.toString());
 			return;
 		}
-
 		// ....and turn it back into a byte array
-
 		resp_message = smppresp.marshall();
-		LoggingUtilities.hexDump(":ENQUIRE_LINK_RESP:", resp_message,
-				resp_message.length);
-		if (smsc.isDecodePdus())
-			LoggingUtilities.logDecodedPdu(smppresp);
-		logger.info(" ");
 		smsc.incEnquireLinkOK();
 		connection.writeResponse(resp_message);
 		smsc.writeDecodedSmppsim(smppresp.toString());
