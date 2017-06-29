@@ -157,6 +157,10 @@ public class HttpHandler implements Runnable {
 
 	private static final String GENERIC_NAK_ERR = "$$generic_nak_err$$";
 
+	private static final String THROTTLED = "$$throttled$$";
+
+	private static final String LIFECYCLE_MNGR = "$$lifecycle_mngr$$";
+
 	private File docRoot;
 
 	private String docRootName;
@@ -685,6 +689,10 @@ public class HttpHandler implements Runnable {
 			return Integer.toString(smsc.getPending_queue_size());
 		if (paramName.equals(OQCOUNT))
 			return Integer.toString(smsc.getOutbound_queue_size());
+		if (paramName.equals(THROTTLED))
+		    return Boolean.toString(SMPPSim.isThrottled());
+		if (paramName.equals(LIFECYCLE_MNGR))
+		    return SMPPSim.getLifeCycleManagerClassName();
 		if (paramName.equals(BINDTRANSMITTER_OK))
 			return Long.toString(smsc.getBindTransmitterOK());
 		if (paramName.equals(BINDTRANSMITTER_ERR))

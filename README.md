@@ -16,3 +16,18 @@ Run
 ```
 $ sh ./startsmpp.sh
 ```
+
+Config
+------
+```
+$ vim conf/smppsim.props
+```
+
+**Simulate failure scenario using throttling**
+```
+ESME_RTHROTTLED=true
+```
+**Life cycle manager for load testing, sets message state according to the MT message**
+```
+LIFE_CYCLE_MANAGER=com.seleniumsoftware.SMPPSim.LoadTestLifeCycleManager
+```
