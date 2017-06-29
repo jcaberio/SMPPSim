@@ -12,7 +12,7 @@
 .mtj.tmp/
 
 # Package Files #
-smppsim.jar
+#smppsim.jar
 *.war
 *.ear
 *.zip
